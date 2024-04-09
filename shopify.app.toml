@@ -1,0 +1,29 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "ac5a1d3ff957f167e64683333d49a966"
+name = "pickup-option-hide"
+handle = "pickup-option-hide"
+application_url = "https://eternal-attention-peripheral-basic.trycloudflare.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "functions-checker.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_customers,read_delivery_customizations,write_customers,write_delivery_customizations,write_products"
+
+[auth]
+redirect_urls = [
+  "https://eternal-attention-peripheral-basic.trycloudflare.com/auth/callback",
+  "https://eternal-attention-peripheral-basic.trycloudflare.com/auth/shopify/callback",
+  "https://eternal-attention-peripheral-basic.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-01"
+
+[pos]
+embedded = false

@@ -1,0 +1,37 @@
+query RunInput {
+  cart {
+    deliveryGroups {
+      id
+      deliveryAddress {
+        provinceCode
+      }
+        deliveryOptions {
+          handle
+          title
+          deliveryMethodType
+        }
+    }
+    buyerIdentity {
+      customer {
+        amountSpent {
+          amount
+        }
+        hasTags(tags: ["no-pickup"]) {
+          hasTag
+          tag
+        }
+      }
+    }
+    deliverableLines{
+      id
+    }
+  }
+  deliveryCustomization {
+    metafield(
+      namespace: "delivery-customization"
+      key: "function-configuration"
+    ) {
+      value
+    }
+  }
+}

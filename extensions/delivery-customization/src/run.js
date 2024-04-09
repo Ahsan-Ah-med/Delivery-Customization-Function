@@ -9,16 +9,24 @@
 * @typedef {import("../generated/api").Operation} Operation
 */
 
+const NO_CHANGES = {
+  operations: [],
+};
 // The configured entrypoint for the 'purchase.delivery-customization.run' extension target
 /**
 * @param {RunInput} input
 * @returns {FunctionRunResult}
 */
+
+
 export function run(input) {
   // The message to be added to the delivery option
   // const message = "May be delayed due to weather conditions";
   let toHide = input?.cart?.buyerIdentity?.customer?.hasTags[0].hasTag
-  let toRename = input.cart.deliveryGroups
+  if (!toHide) {
+    return NO_CHANGES;
+  }
+  let Hide = input.cart.deliveryGroups
     // Filter for delivery groups with a shipping address containing the affected state or province
     // .filter(group => group.deliveryAddress?.provinceCode &&
     //   group.deliveryAddress.provinceCode == "NC")
@@ -40,23 +48,23 @@ export function run(input) {
     .flatMap(group => group.deliveryOptions.filter(option => option.title === 'Standard'))
     .map(option => ({
       hide: {
-        deliveryOptionHandle: toHide ? option.handle : ""
+        deliveryOptionHandle: option.handle
       }
     }));
-  console.log(JSON.stringify(input?.cart?.deliveryGroups.filter(group => group?.deliveryOptions.filter(option => option?.title == 'Standard').length > 0)))
+  // console.log(JSON.stringify(input?.cart?.deliveryGroups.filter(group => group?.deliveryOptions.filter(option => option?.title == 'Standard').length > 0)))
 
-  const filteredDeliveryGroups = input?.cart?.deliveryGroups.map(group => ({
-    ...group,
-    deliveryOptions: group?.deliveryOptions.filter(option => option.title === 'Standard')
-  }));
+  // const filteredDeliveryGroups = input?.cart?.deliveryGroups.map(group => ({
+  //   ...group,
+  //   deliveryOptions: group?.deliveryOptions.filter(option => option.title === 'Standard')
+  // }));
+  // console.log(JSON.stringify(filteredDeliveryGroups))
 
   // JSON.stringify(filteredDeliveryGroups);
 
-  console.log(JSON.stringify(filteredDeliveryGroups))
   // console.log(JSON.stringify(toHide))
   // The @shopify/shopify_function package applies JSON.stringify() to your function result
   // and writes it to STDOUT
   return {
-    operations: toRename
+    operations: Hide
   };
 };
